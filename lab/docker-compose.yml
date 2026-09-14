@@ -1,0 +1,28 @@
+services:
+  attacker:
+    build: ./attacker
+    container_name: ids-attacker
+    networks:
+      - idsnet
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    tty: true
+    command: ["sleep", "infinity"]
+
+  victim:
+    build: ./victim
+    container_name: ids-victim
+    networks:
+      - idsnet
+    ports:
+      - "22222:22"
+    tty: true
+
+networks:
+  idsnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+
